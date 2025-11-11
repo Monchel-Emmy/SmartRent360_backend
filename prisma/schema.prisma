@@ -1,0 +1,103 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  COMMISSIONER
+  LANDLORD
+  TENANT
+}
+
+enum PropertyType {
+  HOUSE
+  APARTMENT
+  PLOT
+  ROOM
+}
+
+enum PropertyStatus {
+  AVAILABLE
+  RENTED
+  SOLD
+}
+
+enum RequestStatus {
+  PENDING
+  CONNECTED
+  COMPLETED
+}
+
+model User {
+  id         String    @id @default(uuid())
+  name       String
+  phone      String    @unique
+  role       Role
+  verified   Boolean   @default(false)
+  nationalId String?
+  password   String    // Hashed password for authentication
+  properties Property[]
+  requests   Request[]
+  commissions Commission[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Property {
+  id         String       @id @default(uuid())
+  title      String
+  type       PropertyType
+  price      Int
+  location   String
+  rooms      Int?
+  status     PropertyStatus @default(AVAILABLE)
+  verified   Boolean       @default(false)
+  ownerId    String
+  owner      User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  media      Media[]
+  requests   Request[]
+  commissions Commission[]
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model Media {
+  id         String   @id @default(uuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  url        String
+  createdAt  DateTime @default(now())
+}
+
+model Request {
+  id         String        @id @default(uuid())
+  tenantId   String
+  tenant     User          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  propertyId String
+  property   Property      @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  adminId    String?
+  status     RequestStatus @default(PENDING)
+  message    String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+model Commission {
+  id             String   @id @default(uuid())
+  propertyId     String
+  property       Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  commissionerId String
+  commissioner   User     @relation(fields: [commissionerId], references: [id], onDelete: Cascade)
+  amount         Int
+  smartRentFee   Int
+  createdAt      DateTime @default(now())
+}
+

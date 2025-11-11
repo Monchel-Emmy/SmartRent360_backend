@@ -1,4 +1,4 @@
-# 🏠 SmartRent360 Backend
+# SmartRent360 Backend
 
 A comprehensive backend API for a property rental management system built with **TypeScript**, **Express.js**, **PostgreSQL**, and **Prisma**.
 

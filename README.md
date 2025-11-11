@@ -11,7 +11,6 @@ A comprehensive backend API for a property rental management system built with *
 - **Tenant Requests** – Submission and management of property interest requests
 - **Commission Tracking** – Automatic calculation of service fees
 - **Admin Functions** – Verification, dashboard, and statistics
-- **Localization Support** – Multi-language (Kinyarwanda & English)
 - **Search & Filtering** – Filter by type, location, price, rooms
 - **Pagination** – All list endpoints are paginated
 - **Security** – JWT authentication, role-based access, input validation

@@ -14,7 +14,8 @@ const options: swaggerJsdoc.Options = {
     },
     servers: [
       {
-        url: `http://localhost:${config.port}`,
+        // url: `http://localhost:${config.port}`,
+        url: `https://smartrent360-backend.onrender.com/api`,
         description: 'Development server',
       },
     ],

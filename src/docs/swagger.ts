@@ -1,5 +1,5 @@
 import swaggerJsdoc from 'swagger-jsdoc';
-import { config } from '../config/env';
+// import { config } from '../config/env';
 
 const options: swaggerJsdoc.Options = {
   definition: {
@@ -15,7 +15,7 @@ const options: swaggerJsdoc.Options = {
     servers: [
       {
         // url: `http://localhost:${config.port}`,
-        url: `https://smartrent360-backend.onrender.com/api/${config.apiVersion}`,
+        url: `https://smartrent360-backend.onrender.com/api`,
         description: 'Development server',
       },
     ],

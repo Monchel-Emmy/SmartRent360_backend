@@ -7,7 +7,7 @@ export class PropertyRepository {
     title: string;
     type: PropertyType;
     price: number;
-    location: string;
+    description: string;
     rooms?: number;
     ownerId: string;
     province: string;
@@ -47,19 +47,7 @@ export class PropertyRepository {
     data: Property[];
     totalItems: number;
   }> {
-    const where: {
-      type?: PropertyType;
-      price?: { gte?: number; lte?: number };
-      location?: { contains: string; mode?: "insensitive" };
-      rooms?: number;
-      status?: PropertyStatus;
-      verified?: boolean;
-      province?: { contains: string; mode?: "insensitive" };
-      district?: { contains: string; mode?: "insensitive" };
-      sector?: { contains: string; mode?: "insensitive" };
-      cell?: { contains: string; mode?: "insensitive" };
-      village?: { contains: string; mode?: "insensitive" };
-    } = {};
+    const where: any = {};
 
     if (filters.type) where.type = filters.type;
     if (filters.minPrice || filters.maxPrice) {
@@ -67,11 +55,11 @@ export class PropertyRepository {
       if (filters.minPrice) where.price.gte = filters.minPrice;
       if (filters.maxPrice) where.price.lte = filters.maxPrice;
     }
-    if (filters.location) {
-      where.location = {
-        contains: filters.location,
-        mode: "insensitive",
-      };
+    if (filters.search) {
+      where.OR = [
+        { title: { contains: filters.search, mode: "insensitive" } },
+        { description: { contains: filters.search, mode: "insensitive" } },
+      ];
     }
     if (filters.rooms) where.rooms = filters.rooms;
     if (filters.status) where.status = filters.status;
@@ -155,7 +143,7 @@ export class PropertyRepository {
       title?: string;
       type?: PropertyType;
       price?: number;
-      location?: string;
+      description?: string;
       rooms?: number;
       status?: PropertyStatus;
     }

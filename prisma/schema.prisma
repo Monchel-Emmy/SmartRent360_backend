@@ -52,15 +52,15 @@ model User {
 }
 
 model Property {
-  id       String         @id @default(uuid())
-  title    String
-  type     PropertyType
-  price    Int
-  location String
-  rooms    Int?
-  status   PropertyStatus @default(AVAILABLE)
-  verified Boolean        @default(false)
-  ownerId  String
+  id          String         @id @default(uuid())
+  title       String
+  type        PropertyType
+  price       Int
+  description String
+  rooms       Int?
+  status      PropertyStatus @default(AVAILABLE)
+  verified    Boolean        @default(false)
+  ownerId     String
 
   province    String
   district    String

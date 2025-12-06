@@ -35,7 +35,7 @@ export class PropertyController {
         type: req.query.type as any,
         minPrice: req.query.minPrice ? Number(req.query.minPrice) : undefined,
         maxPrice: req.query.maxPrice ? Number(req.query.maxPrice) : undefined,
-        location: req.query.location as string,
+        description: req.query.location as string,
         rooms: req.query.rooms ? Number(req.query.rooms) : undefined,
         status: req.query.status as any,
         verified:

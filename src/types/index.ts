@@ -1,6 +1,11 @@
 // Re-export Prisma enums for convenience
-import { Request } from 'express';
-import { Role, PropertyType, PropertyStatus, RequestStatus } from '@prisma/client';
+import { Request } from "express";
+import {
+  Role,
+  PropertyType,
+  PropertyStatus,
+  RequestStatus,
+} from "@prisma/client";
 
 export { Role, PropertyType, PropertyStatus, RequestStatus };
 
@@ -17,7 +22,7 @@ export interface PropertyDTO {
   title: string;
   type: PropertyType;
   price: number;
-  location: string;
+  description: string;
   rooms?: number;
   ownerId: string;
   province: string;
@@ -51,7 +56,7 @@ export interface PropertyFilters {
   type?: PropertyType;
   minPrice?: number;
   maxPrice?: number;
-  location?: string;
+  search?: string;
   rooms?: number;
   status?: PropertyStatus;
   verified?: boolean;
@@ -75,7 +80,7 @@ export interface CommissionFilters {
 
 // API Response Types
 export interface ApiResponse<T> {
-  status: 'success' | 'error';
+  status: "success" | "error";
   message: string;
   data?: T;
   errors?: Record<string, string | string[]>;

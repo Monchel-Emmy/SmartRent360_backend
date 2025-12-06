@@ -84,7 +84,7 @@ const options: swaggerJsdoc.Options = {
               enum: ["HOUSE", "APARTMENT", "PLOT", "ROOM"],
             },
             price: { type: "integer" },
-            location: { type: "string" },
+            description: { type: "string" },
             rooms: { type: "integer", nullable: true },
             status: { type: "string", enum: ["AVAILABLE", "RENTED", "SOLD"] },
             verified: { type: "boolean" },
@@ -180,7 +180,7 @@ const options: swaggerJsdoc.Options = {
         },
         CreatePropertyRequest: {
           type: "object",
-          required: ["title", "type", "price", "location", "province", "district", "sector", "cell", "village"],
+          required: ["title", "type", "price", "description", "province", "district", "sector", "cell", "village"],
           properties: {
             title: { type: "string", example: "Beautiful 3 Bedroom House" },
             type: {
@@ -189,7 +189,7 @@ const options: swaggerJsdoc.Options = {
               example: "HOUSE",
             },
             price: { type: "integer", example: 500000, minimum: 0 },
-            location: { type: "string", example: "Kigali, Rwanda" },
+            description: { type: "string", example: "Beautiful modern house with spacious rooms and garden" },
             rooms: { type: "integer", example: 3, minimum: 0 },
             province: { type: "string", example: "Kigali City" },
             district: { type: "string", example: "Gasabo" },
@@ -210,7 +210,7 @@ const options: swaggerJsdoc.Options = {
               enum: ["HOUSE", "APARTMENT", "PLOT", "ROOM"],
             },
             price: { type: "integer", minimum: 0 },
-            location: { type: "string" },
+            description: { type: "string" },
             rooms: { type: "integer", minimum: 0 },
             status: { type: "string", enum: ["AVAILABLE", "RENTED", "SOLD"] },
             province: { type: "string" },

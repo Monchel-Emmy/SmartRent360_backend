@@ -10,6 +10,11 @@ export class PropertyRepository {
     location: string;
     rooms?: number;
     ownerId: string;
+    province: string;
+    district: string;
+    sector: string;
+    cell: string;
+    village: string;
   }): Promise<Property> {
     return prisma.property.create({
       data,

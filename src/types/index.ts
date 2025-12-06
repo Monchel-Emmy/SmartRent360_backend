@@ -20,6 +20,14 @@ export interface PropertyDTO {
   location: string;
   rooms?: number;
   ownerId: string;
+  province: string;
+  district: string;
+  sector: string;
+  cell: string;
+  village: string;
+  gpsLat?: number;
+  gpsLng?: number;
+  rules?: string[];
 }
 
 export interface RequestDTO {

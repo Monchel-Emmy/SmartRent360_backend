@@ -89,6 +89,14 @@ const options: swaggerJsdoc.Options = {
             status: { type: "string", enum: ["AVAILABLE", "RENTED", "SOLD"] },
             verified: { type: "boolean" },
             ownerId: { type: "string", format: "uuid" },
+            province: { type: "string" },
+            district: { type: "string" },
+            sector: { type: "string" },
+            cell: { type: "string" },
+            village: { type: "string" },
+            gpsLat: { type: "number", format: "float", nullable: true },
+            gpsLng: { type: "number", format: "float", nullable: true },
+            rules: { type: "array", items: { type: "string" } },
             owner: { $ref: "#/components/schemas/User" },
             media: {
               type: "array",
@@ -172,7 +180,7 @@ const options: swaggerJsdoc.Options = {
         },
         CreatePropertyRequest: {
           type: "object",
-          required: ["title", "type", "price", "location"],
+          required: ["title", "type", "price", "location", "province", "district", "sector", "cell", "village"],
           properties: {
             title: { type: "string", example: "Beautiful 3 Bedroom House" },
             type: {
@@ -183,6 +191,14 @@ const options: swaggerJsdoc.Options = {
             price: { type: "integer", example: 500000, minimum: 0 },
             location: { type: "string", example: "Kigali, Rwanda" },
             rooms: { type: "integer", example: 3, minimum: 0 },
+            province: { type: "string", example: "Kigali City" },
+            district: { type: "string", example: "Gasabo" },
+            sector: { type: "string", example: "Remera" },
+            cell: { type: "string", example: "Rukiri I" },
+            village: { type: "string", example: "Amahoro" },
+            gpsLat: { type: "number", format: "float", example: -1.9536 },
+            gpsLng: { type: "number", format: "float", example: 30.0606 },
+            rules: { type: "array", items: { type: "string" }, example: ["No pets", "No smoking"] },
           },
         },
         UpdatePropertyRequest: {
@@ -197,6 +213,14 @@ const options: swaggerJsdoc.Options = {
             location: { type: "string" },
             rooms: { type: "integer", minimum: 0 },
             status: { type: "string", enum: ["AVAILABLE", "RENTED", "SOLD"] },
+            province: { type: "string" },
+            district: { type: "string" },
+            sector: { type: "string" },
+            cell: { type: "string" },
+            village: { type: "string" },
+            gpsLat: { type: "number", format: "float" },
+            gpsLng: { type: "number", format: "float" },
+            rules: { type: "array", items: { type: "string" } },
           },
         },
         CreateRequestRequest: {

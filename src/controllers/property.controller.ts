@@ -1,9 +1,13 @@
-import { Request, Response } from 'express';
-import { PropertyService } from '../services/property.service';
-import { PropertyDTO, PropertyFilters, AuthenticatedRequest } from '../types';
-import { sendSuccess, sendPaginatedSuccess, sendError } from '../utils/response';
-import { getPaginationParams } from '../utils/pagination';
-import { body, param, query } from 'express-validator';
+import { Request, Response } from "express";
+import { PropertyService } from "../services/property.service";
+import { PropertyDTO, PropertyFilters, AuthenticatedRequest } from "../types";
+import {
+  sendSuccess,
+  sendPaginatedSuccess,
+  sendError,
+} from "../utils/response";
+import { getPaginationParams } from "../utils/pagination";
+import { body, param, query } from "express-validator";
 
 export class PropertyController {
   constructor(private propertyService: PropertyService) {}
@@ -16,9 +20,10 @@ export class PropertyController {
         ownerId: authReq.user?.id || req.body.ownerId,
       };
       const property = await this.propertyService.createProperty(dto);
-      sendSuccess(res, 'Property created successfully', property, 201);
+      sendSuccess(res, "Property created successfully", property, 201);
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to create property';
+      const message =
+        error instanceof Error ? error.message : "Failed to create property";
       sendError(res, message, undefined, 400);
     }
   }
@@ -33,11 +38,25 @@ export class PropertyController {
         location: req.query.location as string,
         rooms: req.query.rooms ? Number(req.query.rooms) : undefined,
         status: req.query.status as any,
-        verified: req.query.verified === 'true' ? true : req.query.verified === 'false' ? false : undefined,
+        verified:
+          req.query.verified === "true"
+            ? true
+            : req.query.verified === "false"
+            ? false
+            : undefined,
+        province: req.query.province as string,
+        district: req.query.district as string,
+        sector: req.query.sector as string,
+        cell: req.query.cell as string,
+        village: req.query.village as string,
       };
 
-      const result = await this.propertyService.searchProperties(filters, page, pageSize);
-      sendPaginatedSuccess(res, 'Properties retrieved', {
+      const result = await this.propertyService.searchProperties(
+        filters,
+        page,
+        pageSize
+      );
+      sendPaginatedSuccess(res, "Properties retrieved", {
         data: result.data,
         totalItems: result.totalItems,
         page,
@@ -45,7 +64,10 @@ export class PropertyController {
         totalPages: Math.ceil(result.totalItems / pageSize),
       });
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to retrieve properties';
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Failed to retrieve properties";
       sendError(res, message, undefined, 500);
     }
   }
@@ -56,13 +78,14 @@ export class PropertyController {
       const property = await this.propertyService.getPropertyById(id);
 
       if (!property) {
-        sendError(res, 'Property not found', undefined, 404);
+        sendError(res, "Property not found", undefined, 404);
         return;
       }
 
-      sendSuccess(res, 'Property retrieved successfully', property);
+      sendSuccess(res, "Property retrieved successfully", property);
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to retrieve property';
+      const message =
+        error instanceof Error ? error.message : "Failed to retrieve property";
       sendError(res, message, undefined, 500);
     }
   }
@@ -74,7 +97,7 @@ export class PropertyController {
       const data = req.body;
 
       if (!authReq.user) {
-        sendError(res, 'Authentication required', undefined, 401);
+        sendError(res, "Authentication required", undefined, 401);
         return;
       }
 
@@ -84,9 +107,10 @@ export class PropertyController {
         authReq.user.id,
         authReq.user.role
       );
-      sendSuccess(res, 'Property updated successfully', property);
+      sendSuccess(res, "Property updated successfully", property);
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to update property';
+      const message =
+        error instanceof Error ? error.message : "Failed to update property";
       sendError(res, message, undefined, 400);
     }
   }
@@ -95,9 +119,10 @@ export class PropertyController {
     try {
       const { id } = req.params;
       const property = await this.propertyService.verifyProperty(id);
-      sendSuccess(res, 'Property verified successfully', property);
+      sendSuccess(res, "Property verified successfully", property);
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to verify property';
+      const message =
+        error instanceof Error ? error.message : "Failed to verify property";
       sendError(res, message, undefined, 500);
     }
   }
@@ -105,8 +130,11 @@ export class PropertyController {
   async getPendingVerification(req: Request, res: Response): Promise<void> {
     try {
       const { page, pageSize } = getPaginationParams(req.query);
-      const result = await this.propertyService.getPendingVerification(page, pageSize);
-      sendPaginatedSuccess(res, 'Pending properties retrieved', {
+      const result = await this.propertyService.getPendingVerification(
+        page,
+        pageSize
+      );
+      sendPaginatedSuccess(res, "Pending properties retrieved", {
         data: result.data,
         totalItems: result.totalItems,
         page,
@@ -114,7 +142,10 @@ export class PropertyController {
         totalPages: Math.ceil(result.totalItems / pageSize),
       });
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'Failed to retrieve pending properties';
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Failed to retrieve pending properties";
       sendError(res, message, undefined, 500);
     }
   }
@@ -122,23 +153,47 @@ export class PropertyController {
 
 // Validation rules
 export const createPropertyValidation = [
-  body('title').trim().notEmpty().withMessage('Title is required'),
-  body('type').isIn(['HOUSE', 'APARTMENT', 'PLOT', 'ROOM']).withMessage('Invalid property type'),
-  body('price').isInt({ min: 0 }).withMessage('Price must be a positive integer'),
-  body('location').trim().notEmpty().withMessage('Location is required'),
-  body('rooms').optional().isInt({ min: 0 }).withMessage('Rooms must be a positive integer'),
+  body("title").trim().notEmpty().withMessage("Title is required"),
+  body("type")
+    .isIn(["HOUSE", "APARTMENT", "PLOT", "ROOM"])
+    .withMessage("Invalid property type"),
+  body("price")
+    .isInt({ min: 0 })
+    .withMessage("Price must be a positive integer"),
+  body("location").trim().notEmpty().withMessage("Location is required"),
+  body("rooms")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("Rooms must be a positive integer"),
 ];
 
 export const propertyIdValidation = [
-  param('id').isUUID().withMessage('Invalid property ID'),
+  param("id").isUUID().withMessage("Invalid property ID"),
 ];
 
 export const propertyFiltersValidation = [
-  query('type').optional().isIn(['HOUSE', 'APARTMENT', 'PLOT', 'ROOM']).withMessage('Invalid property type'),
-  query('minPrice').optional().isInt({ min: 0 }).withMessage('Min price must be a positive integer'),
-  query('maxPrice').optional().isInt({ min: 0 }).withMessage('Max price must be a positive integer'),
-  query('rooms').optional().isInt({ min: 0 }).withMessage('Rooms must be a positive integer'),
-  query('status').optional().isIn(['AVAILABLE', 'RENTED', 'SOLD']).withMessage('Invalid property status'),
-  query('verified').optional().isBoolean().withMessage('Verified must be a boolean'),
+  query("type")
+    .optional()
+    .isIn(["HOUSE", "APARTMENT", "PLOT", "ROOM"])
+    .withMessage("Invalid property type"),
+  query("minPrice")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("Min price must be a positive integer"),
+  query("maxPrice")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("Max price must be a positive integer"),
+  query("rooms")
+    .optional()
+    .isInt({ min: 0 })
+    .withMessage("Rooms must be a positive integer"),
+  query("status")
+    .optional()
+    .isIn(["AVAILABLE", "RENTED", "SOLD"])
+    .withMessage("Invalid property status"),
+  query("verified")
+    .optional()
+    .isBoolean()
+    .withMessage("Verified must be a boolean"),
 ];
-

@@ -55,6 +55,11 @@ export interface PropertyFilters {
   rooms?: number;
   status?: PropertyStatus;
   verified?: boolean;
+  province?: string;
+  district?: string;
+  sector?: string;
+  cell?: string;
+  village?: string;
 }
 
 export interface RequestFilters {
